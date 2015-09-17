@@ -1,16 +1,32 @@
 package com.purify.aerexu.exercise2;
 
-import android.support.v7.app.AppCompatActivity;
+
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends Activity implements View.OnClickListener {
+    private LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        LayoutInflater inflater = getLayoutInflater();
+
+        linearLayout = (LinearLayout)inflater.inflate(R.layout.activity_main,null,false);
+        MyButton testBut = new MyButton(this);
+        testBut.setText("MyButton");
+        testBut.setId(R.id.mMyButton);
+        linearLayout.addView(testBut, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        setContentView(linearLayout);
+        testBut.setOnClickListener(this);
+        linearLayout.findViewById(R.id.mButton).setOnClickListener(this);
     }
 
     @Override
@@ -34,4 +50,19 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onClick(View v) {
+        TextView textView= (TextView)findViewById(R.id.mTextView);
+        switch (v.getId()){
+            case R.id.mButton:
+                textView.setText("Button1");
+                break;
+            case R.id.mMyButton:
+                textView.setText("Button2");
+                break;
+        }
+    }
+
+
 }
