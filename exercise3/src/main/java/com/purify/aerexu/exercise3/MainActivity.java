@@ -35,19 +35,19 @@ public class MainActivity extends AppCompatActivity {
                     imageView = (ImageView)findViewById(R.id.mImageView2);
                     butFlag = true;
                 }
-                textView.setBackground(imageView.getBackground());
-                Bitmap screenshot;
-                screenshot = Bitmap.createBitmap(imageView.getWidth(), imageView.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(screenshot);
-                imageView.draw(c);
+//                textView.setBackground(imageView.getBackground());
+                Bitmap origin;
+                origin = Bitmap.createBitmap(imageView.getWidth(), imageView.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas ca = new Canvas(origin);
+                imageView.draw(ca);
                 View view = textView;
                 Bitmap overlay = Bitmap.createBitmap(view.getMeasuredWidth(),
                         view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(overlay);
-                canvas.translate(-view.getLeft(), -view.getTop());
+                Canvas cb = new Canvas(overlay);
+                cb.translate(-view.getLeft(), -view.getTop());
                 Paint paint = new Paint();
                 paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-                canvas.drawBitmap(screenshot, 0, 0, paint);
+                cb.drawBitmap(origin, 0, 0, paint);
                 view.setBackground(new BitmapDrawable(getResources(), overlay));
             }
         });
