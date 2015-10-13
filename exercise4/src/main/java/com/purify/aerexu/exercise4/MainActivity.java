@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +22,12 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
     private TextView textView;
     private SeekBar radiusSeekBar;
     private SeekBar scaleSeekBar;
+    private SeekBar alphaSeekBar;
     private Button button;
     private boolean blurFlag = true;
     float scaleFactor = 1;
     float radius = 10;
+    float alpha = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,8 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
         radiusSeekBar.setOnSeekBarChangeListener(this);
         scaleSeekBar = (SeekBar) findViewById(R.id.seekBarScale);
         scaleSeekBar.setOnSeekBarChangeListener(this);
+        alphaSeekBar = (SeekBar) findViewById(R.id.seekBarAlpha);
+        alphaSeekBar.setOnSeekBarChangeListener(this);
         button = (Button) findViewById(R.id.mButton);
         imageView = (ImageView) findViewById(R.id.mImageView1);
         textView.setBackground(imageView.getBackground());
@@ -82,7 +85,7 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             overlayAlloc.copyTo(overlay);
         }
         view.setBackground(new BitmapDrawable(getResources(), overlay));
-
+        view.setAlpha(alpha);
     }
 
     @Override
@@ -101,6 +104,9 @@ public class MainActivity extends Activity implements SeekBar.OnSeekBarChangeLis
             drawBackground();
         } else if (seekBar == scaleSeekBar) {
             scaleFactor = transformSeekBarValue(seekBar, 1, 10);
+            drawBackground();
+        } else if (seekBar == alphaSeekBar) {
+            alpha = transformSeekBarValue(seekBar, 1, 100) / 100;
             drawBackground();
         }
     }
